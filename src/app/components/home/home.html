@@ -5,21 +5,25 @@
            <label class="mainlabel">Add services:</label> 
         </div>
         <div class="form-group">
+            <label for="name">Your Name: </label>
+            <input type="text" [(ngModel)]="name" name="name" id="name" placeholder="Enter your Name: ">
+        </div>
+        <div class="form-group">
             <label for="servicename">Service Name: </label>
-            <input type="text" id="servicename" placeholder="Enter your Service Name: ">
+            <input type="text" [(ngModel)]="servicename" name="servicename" id="servicename" placeholder="Enter your Service Name: ">
         </div>
 
         <div class="form-group">
             <label for="cost">Cost</label>
-            <input type="number" id="cost">
+            <input type="number" [(ngModel)]="cost" name="cost" id="cost">
         </div>
         <div class="form-group">
             <label for="duedate">Due Date:</label>
-            <input type="date" id="date">
+            <input type="date"  [(ngModel)]="duedate" name="duedate" id="date">
         </div>
         <div class="form-group">
             <label for="type">Type</label>
-            <select id="type">
+            <select id="type"  [(ngModel)]="type" name="type">
                 <option value="Basic">Basic</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Auto">Auto</option>

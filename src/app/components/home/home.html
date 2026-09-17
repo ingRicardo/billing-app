@@ -1,24 +1,34 @@
 <div class="mainstyle">
-    <div>
-        Basic services:
-    </div>
-    <ul>
-        <li>Electricity service</li>
-        <li>Gas</li>
-        <li>Property tax</li>
-        <li>Water service</li>
-    </ul>
 
-    <div>
-        Entertainment services
-    </div>
-    <div>
-        Auto ervices
-    </div>
-    <div>
-        Food
-    </div>
-    <div>
-        kids expenses
-    </div>
+    <form class="form-container">
+        <div>
+           <label class="mainlabel">Add services:</label> 
+        </div>
+        <div class="form-group">
+            <label for="servicename">Service Name: </label>
+            <input type="text" id="servicename" placeholder="Enter your Service Name: ">
+        </div>
+
+        <div class="form-group">
+            <label for="cost">Cost</label>
+            <input type="number" id="cost">
+        </div>
+        <div class="form-group">
+            <label for="duedate">Due Date:</label>
+            <input type="date" id="date">
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type">
+                <option value="Basic">Basic</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Auto">Auto</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="button-group">
+            <button type="button" class="btn btn-primary" (click)="addService()">Add Service</button>
+        </div>
+    </form>
+
 </div>

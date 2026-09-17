@@ -16,9 +16,10 @@ export class Home {
   cost = signal<number>(0);
   duedate = signal<string>('');
   type = signal<string>('');
+  email = signal<string>('');
   addService() {
     console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
-    'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type());
+    'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email());
   }
 
 }

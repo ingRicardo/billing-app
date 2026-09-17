@@ -17,9 +17,10 @@ export class Home {
   duedate = signal<string>('');
   type = signal<string>('');
   email = signal<string>('');
+  status = signal<string>('');
   addService() {
     console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
-    'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email());
+    'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
   }
 
 }

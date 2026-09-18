@@ -24,6 +24,10 @@ export class Home {
   status = signal<string>('');
 
   services = this.billService.services;
+
+  showSuccessModal = signal<boolean>(false);
+  isSubmitting = signal<boolean>(false);
+
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
@@ -32,6 +36,9 @@ export class Home {
     /*console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
     'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
     */
+    if (this.isSubmitting()) return;
+
+    this.isSubmitting.set(true);
 
     if (this.name() === '' || this.servicename() === '' || this.cost() === 0 || this.duedate() === '' || this.type() === '' || this.email() === ''
       || this.status() === '') {
@@ -52,20 +59,29 @@ export class Home {
       console.log("newService ", newService);
       this.billService.create(newService).subscribe({
         next: () => {
-          // Clear form fields after successful submission
-          alert('success');
-          this.name.set('');
-          this.servicename.set('');
-          this.cost.set(0);
-          this.duedate.set('');
-          this.status.set('');
-          this.email.set('');
+          this.isSubmitting.set(false);
+          this.showSuccessModal.set(true);
+          this.resetForm();
+
         },
         error: () => {
+          this.isSubmitting.set(false);
           console.log('error while creating the billservice');
         }
       });
     }
   }
 
+  closeModal(): void {
+    this.showSuccessModal.set(false);
+  }
+  private resetForm(): void {
+    this.name.set('');
+    this.servicename.set('');
+    this.cost.set(0);
+    this.duedate.set('');
+    this.status.set('');
+    this.email.set('');
+
+  }
 }

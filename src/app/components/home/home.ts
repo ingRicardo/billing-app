@@ -29,9 +29,9 @@ export class Home {
   }
 
   addService() {
-    console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
+    /*console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
     'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
-
+    */
     const newService: BillServiceItem = {
       name: this.name(),
       serviceName: this.servicename(),
@@ -39,8 +39,10 @@ export class Home {
       dueDate: this.duedate(),
       type: this.type(),
       email: this.email(),
-      status: this.status()
+      status: this.status(),
+      idempotencyKey: crypto.randomUUID()
     };
+    console.log("newService ", newService);
     this.billService.create(newService).subscribe({
           next: () => {
             // Clear form fields after successful submission

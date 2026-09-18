@@ -14,7 +14,7 @@ import { BillServiceItem } from '../../models/bill-service.model';
 export class Home {
   private readonly billService = inject(BillService);
 
-// Writable signal holding the input name value
+  // Writable signal holding the input name value
   name = signal<string>('');
   servicename = signal<string>('');
   cost = signal<number>(0);
@@ -29,32 +29,43 @@ export class Home {
   }
 
   addService() {
-    console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
+    /*console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
     'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
+    */
 
-    const newService: BillServiceItem = {
-      name: this.name(),
-      serviceName: this.servicename(),
-      cost: this.cost(),
-      dueDate: this.duedate(),
-      type: this.type(),
-      email: this.email(),
-      status: this.status()
-    };
-    this.billService.create(newService).subscribe({
-          next: () => {
-            // Clear form fields after successful submission
-            alert('success');
-            this.name.set('');
-            this.servicename.set('');
-            this.cost.set(0);
-            this.duedate.set('');
-
-          },
-          error: ()=>{
-            console.log('error while creating the billservice');
-          }
-        });
+    if (this.name() === '' || this.servicename() === '' || this.cost() === 0 || this.duedate() === '' || this.type() === '' || this.email() === ''
+      || this.status() === '') {
+      /*  alert('fill the fields'+ this.name() + " "+ this.servicename() +" "+ this.cost() + " "+ this.duedate() +  " "+ this.type() +  " "+ this.email()+  
+       " "+ this.status()); */
+       alert('empty fields');
+    } else {
+      const newService: BillServiceItem = {
+        name: this.name(),
+        serviceName: this.servicename(),
+        cost: this.cost(),
+        dueDate: this.duedate(),
+        type: this.type(),
+        email: this.email(),
+        status: this.status(),
+        idempotencyKey: crypto.randomUUID()
+      };
+      console.log("newService ", newService);
+      this.billService.create(newService).subscribe({
+        next: () => {
+          // Clear form fields after successful submission
+          alert('success');
+          this.name.set('');
+          this.servicename.set('');
+          this.cost.set(0);
+          this.duedate.set('');
+          this.status.set('');
+          this.email.set('');
+        },
+        error: () => {
+          console.log('error while creating the billservice');
+        }
+      });
+    }
   }
 
 }

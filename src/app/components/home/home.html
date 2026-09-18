@@ -48,8 +48,20 @@
             </select>
         </div>
         <div class="button-group">
-            <button type="button" class="btn btn-primary" (click)="addService()">Add Service</button>
+            <button type="button" class="btn btn-primary" (click)="addService()" [disabled]="isSubmitting()" >Add Service</button>
         </div>
     </form>
 
 </div>
+@if (showSuccessModal()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-icon">✓</div>
+      <h3>Record Saved Successfully!</h3>
+      <p>The service record has been created and updated in the database.</p>
+      <button type="button" class="btn btn-primary" (click)="closeModal()">
+        Done
+      </button>
+    </div>
+  </div>
+}

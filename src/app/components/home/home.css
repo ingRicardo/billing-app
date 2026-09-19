@@ -253,3 +253,29 @@
   display: flex;
   gap: 15px; /* Adjust this value to get the exact spacing you need */
 }
+
+.search-container {
+  margin-top: 1rem; 
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.results-list {
+  margin-top: 1.5rem;
+}
+
+.results-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.results-list li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { BillServiceItem } from '../models/bill-service.model';
 
@@ -61,4 +61,28 @@ export class BillService {
       })
     );
   }
+/**
+   * Search bill services by both name and email
+   */
+  search(name: string, email: string): Observable<BillServiceItem[]> {
+    this.loading.set(true);
+
+    const params = new HttpParams()
+      .set('name', name.trim())
+      .set('email', email.trim());
+
+    return this.http.get<BillServiceItem[]>(`${this.apiUrl}/search`, { params }).pipe(
+      tap({
+        next: (results) => {
+          this.services.set(results);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          console.error('Search request failed:', err);
+        }
+      })
+    );
+  }
+
 }

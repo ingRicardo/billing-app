@@ -25,7 +25,7 @@ export class Home {
   email = signal<string>('');
   status = signal<string>('');
 
-  services = this.billService.services;
+  //services = this.billService.services;
 
   showSuccessModal = signal<boolean>(false);
   isSubmitting = signal<boolean>(false);
@@ -34,28 +34,49 @@ export class Home {
   addServiceFlag = signal<boolean>(true);
   getServiceFlag = signal<boolean>(false);
 
-  namese = signal<string>('');
-  emailse = signal<string>('');
+  searchName = signal<string>('');
+  searchEmail = signal<string>('');
   isSearching = signal<boolean>(false);
+
+  // Access service signals directly
+  services = this.billService.services;
+  loading = this.billService.loading;
+
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
 
   searchService(){
-    if(this.isSearching()) return;
+    const name = this.searchName();
+    const email = this.searchEmail();
+    //if(this.isSearching()) return;
+   // this.isSearching.set(true);
+    if(name  != '' && email != ''){
 
-    //this.isSearching.set(true);
-    
-    if(this.namese()  != '' && this.emailse() != ''){
+      console.log(name , email);
 
-      console.log(this.namese() , this.emailse());
+      this.billService.search(name, email).subscribe({
+        next: () => {
+ 
+          console.log("search");
+        },
+        error: () => {
+       
+          console.log('error while searching the billservice');
+        }
+      });
 
     }else{
         this.showErrorModal.set(true);
+        
     }
 
   }
-
+  resetSearch(): void {
+    this.searchName.set('');
+    this.searchEmail.set('');
+    //this.billService.getAll().subscribe();
+  }
  
   showGetServ() {
     this.addServiceFlag.set(false);
@@ -122,6 +143,5 @@ export class Home {
     this.duedate.set('');
     this.status.set('');
     this.email.set('');
-
   }
 }

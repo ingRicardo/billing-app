@@ -5,6 +5,7 @@
       <button type="button" class="btn btn-primary" (click) ="showGetServ()">GetServices</button>
     </div>
     @if(addServiceFlag()){
+      <div class="search-container">
     <form class="form-container">
         <div>
            <label class="mainlabel">Add services:</label> 
@@ -56,25 +57,50 @@
             <button type="button" class="btn btn-primary" (click)="addService()" [disabled]="isSubmitting()" >Add Service</button>
         </div>
     </form>
+    </div>
   }
   @if(getServiceFlag()){
+    <div class="search-container">
     <form class="form-container">
         <div>
           <label class="mainlabel">Search your services:</label>
         </div>
         <div class="form-group">
             <label for="namese">Your Name: </label>
-            <input type="text" [(ngModel)]="namese" name="namese" id="namese" placeholder="Enter your Name: ">
+            <input type="text" [(ngModel)]="searchName" name="namese" id="namese" placeholder="Search by name... ">
         </div>
         <div class="form-group">
             <label for="emailse">E-mail: </label>
-            <input type="email" [(ngModel)]="emailse" name="emailse" id="emailse" placeholder="Enter your email: ">
+            <input type="email" [(ngModel)]="searchEmail" name="emailse" id="emailse" placeholder="Search by email... ">
         </div>
         <div class="button-group">
-            <button type="button" class="btn btn-primary" (click)="searchService()" [disabled]="isSearching()" >Search Service</button>
+            <!-- <button type="button" class="btn btn-primary" (click)="searchService()" [disabled]="isSearching()" >Search Service</button> -->
+            <button type="button" class="btn btn-primary" [disabled]="loading()" (click)="searchService()">
+            {{ loading() ? 'Searching...' : 'Search' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="resetSearch()">
+            Reset
+          </button>
         </div>
       </form>
-
+      <!-- Search Results Display -->
+      <div class="results-list">
+        @if (loading()) {
+          <p>Loading results...</p>
+        } @else if (services().length === 0) {
+          <p>No bill services found matching criteria.</p>
+        } @else {
+          <ul>
+            @for (item of services(); track item.id) {
+              <li>
+                <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
+                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
   }
 </div>
 @if (showSuccessModal()) {

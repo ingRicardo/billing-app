@@ -27,6 +27,7 @@ export class Home {
 
   showSuccessModal = signal<boolean>(false);
   isSubmitting = signal<boolean>(false);
+  showErrorModal = signal<boolean>(false);
 
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
@@ -44,7 +45,7 @@ export class Home {
       || this.status() === '') {
       /*  alert('fill the fields'+ this.name() + " "+ this.servicename() +" "+ this.cost() + " "+ this.duedate() +  " "+ this.type() +  " "+ this.email()+  
        " "+ this.status()); */
-       alert('empty fields');
+       this.showErrorModal.set(true);
     } else {
       const newService: BillServiceItem = {
         name: this.name(),
@@ -65,6 +66,7 @@ export class Home {
 
         },
         error: () => {
+          this.showErrorModal.set(true);
           this.isSubmitting.set(false);
           console.log('error while creating the billservice');
         }
@@ -74,6 +76,10 @@ export class Home {
 
   closeModal(): void {
     this.showSuccessModal.set(false);
+  }
+  closeErrorModal(){
+    this.showErrorModal.set(false);
+    this.isSubmitting.set(false);
   }
   private resetForm(): void {
     this.name.set('');

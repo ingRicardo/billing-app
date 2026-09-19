@@ -65,3 +65,15 @@
     </div>
   </div>
 }
+@if (showErrorModal()) {
+  <div class="modal-overlay" (click)="closeErrorModal()">
+    <div class="modal-card" >
+      <div class="modal-iconErr">X</div>
+      <h3>Error!</h3>
+      <p>Empty Fields / Service Failed</p>
+      <button type="button" class="btn btn-primary" (click)="closeErrorModal()">
+        Done
+      </button>
+    </div>
+  </div>
+}

@@ -1,5 +1,10 @@
 <div class="mainstyle">
 
+    <div class="button-group">
+      <button type="button" class="btn btn-primary" (click)= "showAddServ()">AddService</button>
+      <button type="button" class="btn btn-primary" (click) ="showGetServ()">GetServices</button>
+    </div>
+    @if(addServiceFlag()){
     <form class="form-container">
         <div>
            <label class="mainlabel">Add services:</label> 
@@ -51,7 +56,15 @@
             <button type="button" class="btn btn-primary" (click)="addService()" [disabled]="isSubmitting()" >Add Service</button>
         </div>
     </form>
+  }
+  @if(getServiceFlag()){
+        <form class="form-container">
+        <div>
+          <label class="mainlabel">Search your services:</label> 
+        </div>
+        </form>
 
+  }
 </div>
 @if (showSuccessModal()) {
   <div class="modal-overlay" (click)="closeModal()">

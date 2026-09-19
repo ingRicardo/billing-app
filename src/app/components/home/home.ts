@@ -12,6 +12,8 @@ import { BillServiceItem } from '../../models/bill-service.model';
   standalone: true
 })
 export class Home {
+
+
   private readonly billService = inject(BillService);
 
   // Writable signal holding the input name value
@@ -29,8 +31,21 @@ export class Home {
   isSubmitting = signal<boolean>(false);
   showErrorModal = signal<boolean>(false);
 
+  addServiceFlag = signal<boolean>(true);
+  getServiceFlag = signal<boolean>(false);
+
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
+  }
+
+  showGetServ() {
+    this.addServiceFlag.set(false);
+    this.getServiceFlag.set(true);
+  }
+  
+  showAddServ() {
+    this.addServiceFlag.set(true);
+    this.getServiceFlag.set(false);
   }
 
   addService() {

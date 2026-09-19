@@ -248,3 +248,8 @@
     transform: scale(1);
   }
 }
+
+.button-group {
+  display: flex;
+  gap: 15px; /* Adjust this value to get the exact spacing you need */
+}

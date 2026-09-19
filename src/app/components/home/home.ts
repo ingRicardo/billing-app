@@ -36,21 +36,27 @@ export class Home {
 
   namese = signal<string>('');
   emailse = signal<string>('');
-
+  isSearching = signal<boolean>(false);
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
 
   searchService(){
+    if(this.isSearching()) return;
 
-
-  }
-
-  isSearching(){
-
+    //this.isSearching.set(true);
     
+    if(this.namese()  != '' && this.emailse() != ''){
+
+      console.log(this.namese() , this.emailse());
+
+    }else{
+        this.showErrorModal.set(true);
+    }
+
   }
 
+ 
   showGetServ() {
     this.addServiceFlag.set(false);
     this.getServiceFlag.set(true);

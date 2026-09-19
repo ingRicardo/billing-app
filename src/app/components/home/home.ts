@@ -34,8 +34,21 @@ export class Home {
   addServiceFlag = signal<boolean>(true);
   getServiceFlag = signal<boolean>(false);
 
+  namese = signal<string>('');
+  emailse = signal<string>('');
+
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
+  }
+
+  searchService(){
+
+
+  }
+
+  isSearching(){
+
+    
   }
 
   showGetServ() {

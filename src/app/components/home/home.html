@@ -42,6 +42,7 @@
                 <option value="Overdue">Overdue</option>
                 <option value="Cancelled">Cancelled</option>
                 <option value="Delinquent">Delinquent</option>
+                <option value="Other">Other</option>
             </select>
         </div>
         <div class="form-group">
@@ -99,8 +100,14 @@
               </li>
             }
           </ul>
+           @if(totalCost()){
+            <div class="total-summary">
+              <strong>Total Cost: ${{ totalCost() }}</strong>
+            </div>
+           }
         }
       </div>
+
     </div>
   }
 </div>

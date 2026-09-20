@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, computed, inject, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BillService } from '../../services/bill-service';
 import { BillServiceItem } from '../../models/bill-service.model';
@@ -34,6 +34,8 @@ export class Home {
   addServiceFlag = signal<boolean>(true);
   getServiceFlag = signal<boolean>(false);
 
+  showTotalCost = signal<boolean>(false);
+
   searchName = signal<string>('');
   searchEmail = signal<string>('');
   isSearching = signal<boolean>(false);
@@ -60,9 +62,10 @@ export class Home {
         next: () => {
  
           console.log("search");
+          this.showTotalCost.set(true);
         },
         error: () => {
-       
+          this.showTotalCost.set(false);
           console.log('error while searching the billservice');
         }
       });
@@ -89,6 +92,11 @@ export class Home {
     this.getServiceFlag.set(false);
   }
 
+
+  totalCost = computed(() => {
+    return this.services().reduce((sum, item) => sum + (item.cost || 0), 0);
+  });
+
   addService() {
     /*console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
     'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
@@ -107,8 +115,7 @@ export class Home {
 
     if (name === '' || serviceName === '' || cost === 0 || dueDate === '' || type === '' || email === ''
       || status === '') {
-      /*  alert('fill the fields'+ this.name() + " "+ this.servicename() +" "+ this.cost() + " "+ this.duedate() +  " "+ this.type() +  " "+ this.email()+  
-       " "+ this.status()); */
+
        this.showErrorModal.set(true);
     } else {
       const newService: BillServiceItem = {

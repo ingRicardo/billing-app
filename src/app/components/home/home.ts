@@ -109,9 +109,9 @@ export class Home {
    const email = this.email();
    const status = this.status();
 
-    //if (this.isSubmitting()) return;
+    if (this.isSubmitting()) return;
 
-    //this.isSubmitting.set(true);
+    this.isSubmitting.set(true);
 
     if (name === '' || serviceName === '' || cost === 0 || dueDate === '' || type === '' || email === ''
       || status === '') {
@@ -131,7 +131,7 @@ export class Home {
       console.log("newService ", newService);
       this.billService.create(newService).subscribe({
         next: () => {
-          //this.isSubmitting.set(false);
+          this.isSubmitting.set(true);
           this.showSuccessModal.set(true);
           this.resetForm();
 
@@ -150,7 +150,7 @@ export class Home {
   }
   closeErrorModal(){
     this.showErrorModal.set(false);
-   // this.isSubmitting.set(false);
+    this.isSubmitting.set(false);
   }
   private resetForm(): void {
     this.name.set('');

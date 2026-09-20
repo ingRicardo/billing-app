@@ -8,7 +8,7 @@
     <div class="search-container">
     <form class="form-container">
         <div>
-           <label class="mainlabel">Add services:</label> 
+           <label class="mainlabel">Add services/expenses:</label> 
         </div>
         <div class="form-group">
             <label for="name">Your Name: </label>
@@ -19,7 +19,7 @@
             <input type="email" [(ngModel)]="email" name="email" id="email" placeholder="Enter your email: ">
         </div>
         <div class="form-group">
-            <label for="servicename">Service Name: </label>
+            <label for="servicename">Service/Expense Name: </label>
             <input type="text" [(ngModel)]="servicename" name="servicename" id="servicename" placeholder="Enter your Service Name: ">
         </div>
 
@@ -51,6 +51,7 @@
                 <option value="Basic">Basic</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Auto">Auto</option>
+                <option value="School">School</option>
                 <option value="Other">Other</option>
             </select>
         </div>

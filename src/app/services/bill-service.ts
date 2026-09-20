@@ -13,7 +13,7 @@ export class BillService {
   // Signal state management for local reactive updates
   public services = signal<BillServiceItem[]>([]);
   public loading = signal<boolean>(false);
-
+  public isSubmitting =signal<boolean>(false);
    
   getAll(): Observable<BillServiceItem[]> {
     this.loading.set(true);
@@ -36,10 +36,18 @@ export class BillService {
  
   create(item: BillServiceItem): Observable<BillServiceItem> {
     return this.http.post<BillServiceItem>(this.apiUrl, item).pipe(
-      tap((newItem) => {
+    tap({
+      next: (newItem) => {
         this.services.update((current) => [...current, newItem]);
-      })
-    );
+        this.isSubmitting.set(true);
+      },
+      error: (err) => {
+        console.error('Error creating item:', err);
+        this.isSubmitting.set(false);
+
+      }
+    })
+  );
   }
 
  

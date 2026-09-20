@@ -28,7 +28,7 @@ export class Home {
   //services = this.billService.services;
 
   showSuccessModal = signal<boolean>(false);
-  isSubmitting = signal<boolean>(false);
+  
   showErrorModal = signal<boolean>(false);
 
   addServiceFlag = signal<boolean>(true);
@@ -41,6 +41,7 @@ export class Home {
   // Access service signals directly
   services = this.billService.services;
   loading = this.billService.loading;
+  isSubmitting = this.billService.isSubmitting;
 
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
@@ -50,7 +51,7 @@ export class Home {
     const name = this.searchName();
     const email = this.searchEmail();
     //if(this.isSearching()) return;
-   // this.isSearching.set(true);
+    this.isSearching.set(true);
     if(name  != '' && email != ''){
 
       console.log(name , email);
@@ -92,37 +93,45 @@ export class Home {
     /*console.log('add service  name : ', this.name() ,' servicename: ', this.servicename(),
     'number: ', this.cost(), 'duedate: ',this.duedate(), 'type: ', this.type(), 'email: ',this.email(), 'status: ', this.status());
     */
-    if (this.isSubmitting()) return;
+   const name = this.name();
+   const serviceName = this.servicename();
+   const cost = this.cost();
+   const dueDate =  this.duedate();
+   const type = this.type();
+   const email = this.email();
+   const status = this.status();
 
-    this.isSubmitting.set(true);
+    //if (this.isSubmitting()) return;
 
-    if (this.name() === '' || this.servicename() === '' || this.cost() === 0 || this.duedate() === '' || this.type() === '' || this.email() === ''
-      || this.status() === '') {
+    //this.isSubmitting.set(true);
+
+    if (name === '' || serviceName === '' || cost === 0 || dueDate === '' || type === '' || email === ''
+      || status === '') {
       /*  alert('fill the fields'+ this.name() + " "+ this.servicename() +" "+ this.cost() + " "+ this.duedate() +  " "+ this.type() +  " "+ this.email()+  
        " "+ this.status()); */
        this.showErrorModal.set(true);
     } else {
       const newService: BillServiceItem = {
-        name: this.name(),
-        serviceName: this.servicename(),
-        cost: this.cost(),
-        dueDate: this.duedate(),
-        type: this.type(),
-        email: this.email(),
-        status: this.status(),
+        name: name,
+        serviceName: serviceName,
+        cost: cost,
+        dueDate: dueDate,
+        type: type,
+        email: email,
+        status: status,
         idempotencyKey: crypto.randomUUID()
       };
       console.log("newService ", newService);
       this.billService.create(newService).subscribe({
         next: () => {
-          this.isSubmitting.set(false);
+          //this.isSubmitting.set(false);
           this.showSuccessModal.set(true);
           this.resetForm();
 
         },
         error: () => {
           this.showErrorModal.set(true);
-          this.isSubmitting.set(false);
+          //this.isSubmitting.set(false);
           console.log('error while creating the billservice');
         }
       });
@@ -134,7 +143,7 @@ export class Home {
   }
   closeErrorModal(){
     this.showErrorModal.set(false);
-    this.isSubmitting.set(false);
+   // this.isSubmitting.set(false);
   }
   private resetForm(): void {
     this.name.set('');

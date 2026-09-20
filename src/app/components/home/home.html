@@ -2,10 +2,10 @@
 
     <div class="button-group">
       <button type="button" class="btn btn-primary" (click)= "showAddServ()">AddService</button>
-      <button type="button" class="btn btn-primary" (click) ="showGetServ()">GetServices</button>
+      <button type="button" class="btn btn-primary" (click) ="showGetServ()">SearchServices</button>
     </div>
     @if(addServiceFlag()){
-      <div class="search-container">
+    <div class="search-container">
     <form class="form-container">
         <div>
            <label class="mainlabel">Add services:</label> 
@@ -54,7 +54,8 @@
             </select>
         </div>
         <div class="button-group">
-            <button type="button" class="btn btn-primary" (click)="addService()" [disabled]="isSubmitting()" >Add Service</button>
+            <button type="button" class="btn btn-primary" (click)="addService()" [disabled]="isSubmitting()" >
+            {{ isSubmitting() ? 'Adding...' : 'AddService' }}</button>
         </div>
     </form>
     </div>
@@ -87,7 +88,7 @@
       <div class="results-list">
         @if (loading()) {
           <p>Loading results...</p>
-        } @else if (services().length === 0) {
+        } @else if (services().length === 0 && isSearching()) {
           <p>No bill services found matching criteria.</p>
         } @else {
           <ul>

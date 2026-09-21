@@ -7,5 +7,6 @@ export interface BillServiceItem {
   dueDate?: string;
   type?: string;
   status?: string;
-  idempotencyKey? :string;
+  idempotencyKey?: string;
+  frequency?: string;
 }

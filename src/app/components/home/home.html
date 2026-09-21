@@ -32,8 +32,20 @@
             <input type="date"  [(ngModel)]="duedate" name="duedate" id="date">
         </div>
         <div class="form-group">
+            <label for="frequency">Frequency</label>
+            <select id="frequency"  [(ngModel)]="frequency" name="frequency">
+                <option value="Week">Week</option>
+                <option value="Monthly">Monthly</option>
+                <option value="2-Months">2-Months</option>
+                <option value="3-Months">3-Months</option>
+                <option value="3-Months">4-Months</option>
+                <option value="6-Months">6-Months</option>
+                <option value="Year">Year</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="status">Status</label>
-            <select id="type"  [(ngModel)]="status" name="status">
+            <select id="status"  [(ngModel)]="status" name="status">
                 <option value="Pending">Pending</option>
                 <option value="Suspended">Suspended</option>
                 <option value="Completed">Completed</option>
@@ -97,7 +109,7 @@
             @for (item of services(); track item.id) {
               <li>
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
-                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }}</span>
+                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
               </li>
             }
           </ul>

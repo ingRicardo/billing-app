@@ -26,6 +26,8 @@ export class Home {
   status = signal<string>('');
   frequency = signal<string>('');
 
+  showCalcByDate = signal<boolean>(false);
+
   //services = this.billService.services;
 
   showSuccessModal = signal<boolean>(false);
@@ -40,6 +42,8 @@ export class Home {
   searchName = signal<string>('');
   searchEmail = signal<string>('');
   isSearching = signal<boolean>(false);
+  futuredate = signal<string>('');
+  selectedItem = signal<BillServiceItem | undefined>(undefined);
 
   // Access service signals directly
   services = this.billService.services;
@@ -49,7 +53,102 @@ export class Home {
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
+  showCostByDate(item?: BillServiceItem){
+    this.showCalcByDate.set(true);
+    console.log(item?.id);
+    this.selectedItem.set(item);
+    this.futuredate.set('');
+    this.singleCostByDate.set(0);
+    this.isCostByDateCalc.set(false);
+   // console.log(duedate + " futuredate "+ this.futuredate());
+    
+  }
+  singleCostByDate = signal<number>(0);
+  isCostByDateCalc = signal <boolean>(false);
+  calculateCostByDate(item?: BillServiceItem){
+   // console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost + " frequency "+ item?.frequency);
 
+      if (!item?.dueDate || !item?.cost) {
+            return;
+      }
+    
+    const dueDate = item.dueDate;
+    const futureDate = this.futuredate();
+    const cost = item.cost
+
+    if (dueDate != '' && futureDate !=''){
+      this.isCostByDateCalc.set(true);
+      const monthDifference = this.getMonthDifference(
+                                        dueDate,
+                                        futureDate
+          );
+      console.log(`monthDifference : ${monthDifference}`);
+      console.log(`${dueDate} futuredate ${futureDate} cost ${cost} frequency ${item.frequency}`
+      );
+      switch (item.frequency) {
+        case 'Weekly':{
+          this.singleCostByDate.set(  Math.round (  ( this.calculateWeeksBetween(dueDate,futureDate) * cost) *100) /100);
+          break;
+        }
+        case 'Monthly':{
+          this.singleCostByDate.set( Math.round ( ((monthDifference)* cost) * 100 ) /100 );
+          break;
+        }
+        case '2-Months':{
+          this.singleCostByDate.set( Math.round ( ((monthDifference/2)* cost) * 100 ) /100 );
+          break;
+        }
+        case '3-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/3)* cost) * 100 ) /100);
+          break;
+        }
+        case '4-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/4)* cost) * 100 ) /100);
+          break;
+        }
+    
+        case '6-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/6)* cost) * 100 ) /100);
+          break;
+        }
+          
+        case 'Year':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/12)* cost) * 100 ) /100);
+
+          break;
+        }
+      }
+  }
+
+  }
+
+  getMonthDifference(dateStr1: string, dateStr2: string): number {
+    const d1 = new Date(dateStr1);
+    const d2 = new Date(dateStr2);
+
+    // Calculate months based on year and month differences
+    const yearDiff = d2.getFullYear() - d1.getFullYear();
+    const monthDiff = d2.getMonth() - d1.getMonth();
+
+    // Total months
+    return (yearDiff * 12) + monthDiff;
+  }
+
+  calculateWeeksBetween(dateStr1: string, dateStr2: string): number {
+    // 1. Convert string dates to Date objects
+    const date1 = new Date(dateStr1);
+    const date2 = new Date(dateStr2);
+
+    // 2. Get the absolute difference in milliseconds
+    const diffInMs = Math.abs(date2.getTime() - date1.getTime());
+
+    // 3. Define milliseconds in a single week (1000ms * 60s * 60m * 24h * 7 days)
+    const msInWeek = 1000 * 60 * 60 * 24 * 7;
+
+    // 4. Return the result (use Math.floor, Math.ceil, or keep decimals based on your needs)
+    return Math.floor(diffInMs / msInWeek); 
+  }
+  
   searchService(){
     const name = this.searchName();
     const email = this.searchEmail();

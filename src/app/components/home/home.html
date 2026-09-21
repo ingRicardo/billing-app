@@ -34,11 +34,11 @@
         <div class="form-group">
             <label for="frequency">Frequency</label>
             <select id="frequency"  [(ngModel)]="frequency" name="frequency">
-                <option value="Week">Week</option>
+                <option value="Weekly">Weekly</option>
                 <option value="Monthly">Monthly</option>
                 <option value="2-Months">2-Months</option>
                 <option value="3-Months">3-Months</option>
-                <option value="3-Months">4-Months</option>
+                <option value="4-Months">4-Months</option>
                 <option value="6-Months">6-Months</option>
                 <option value="Year">Year</option>
             </select>
@@ -111,8 +111,34 @@
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
                 <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
               </li>
+              <li>
+                <div>
+                  <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
+                </div>
+                @if(showCalcByDate() && selectedItem()?.id == item.id){
+                  
+                  <div>
+                    <div class="form-group">
+                      <label> select date </label>
+                        <input type="date"   [(ngModel)]="futuredate" name="futuredate" id="futuredate">
+                    </div>
+                    <div class="button-group">
+                      <button type="button" class="btn btn-primary" (click)="calculateCostByDate(item)">calculate By Date </button>
+                    </div>
+                    
+                  </div>
+                  @if(isCostByDateCalc()){
+                    <div class="total-summary">
+                      <strong>Cost By Date: ${{ singleCostByDate() }}</strong>
+                    </div>
+                  }
+
+                }
+              </li>
             }
           </ul>
+
+
            @if(totalCost()){
             <div class="total-summary">
               <strong>Total Cost: ${{ totalCost() }}</strong>

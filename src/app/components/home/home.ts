@@ -42,6 +42,8 @@ export class Home {
   searchName = signal<string>('');
   searchEmail = signal<string>('');
   isSearching = signal<boolean>(false);
+  futuredate = signal<string>('');
+  selectedItem = signal<BillServiceItem | undefined>(undefined);
 
   // Access service signals directly
   services = this.billService.services;
@@ -51,10 +53,19 @@ export class Home {
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
-  calculateCostByDate(duedate?: string){
+  showCostByDate(item?: BillServiceItem){
     this.showCalcByDate.set(true);
-    console.log(duedate);
+    console.log(item?.id);
+    this.selectedItem.set(item);
+    this.futuredate.set('');
+   // console.log(duedate + " futuredate "+ this.futuredate());
+    
   }
+  calculateCostByDate(item?: BillServiceItem){
+    console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost);
+    
+  }
+  
   searchService(){
     const name = this.searchName();
     const email = this.searchEmail();

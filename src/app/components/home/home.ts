@@ -26,6 +26,8 @@ export class Home {
   status = signal<string>('');
   frequency = signal<string>('');
 
+  showCalcByDate = signal<boolean>(false);
+
   //services = this.billService.services;
 
   showSuccessModal = signal<boolean>(false);
@@ -49,7 +51,10 @@ export class Home {
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
-
+  calculateCostByDate(duedate?: string){
+    this.showCalcByDate.set(true);
+    console.log(duedate);
+  }
   searchService(){
     const name = this.searchName();
     const email = this.searchEmail();

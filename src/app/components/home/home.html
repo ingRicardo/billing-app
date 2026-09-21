@@ -111,8 +111,21 @@
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
                 <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
               </li>
+              <li>
+                <div>
+                  <button type="button" class="btn btn-outline" (click)="calculateCostByDate(item.dueDate)">Calculate by date</button>
+                </div>
+                @if(showCalcByDate()){
+                  <div>
+                    months:
+                    
+                  </div>
+                }
+              </li>
             }
           </ul>
+
+
            @if(totalCost()){
             <div class="total-summary">
               <strong>Total Cost: ${{ totalCost() }}</strong>

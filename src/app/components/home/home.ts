@@ -58,12 +58,88 @@ export class Home {
     console.log(item?.id);
     this.selectedItem.set(item);
     this.futuredate.set('');
+    this.singleCostByDate.set(0);
    // console.log(duedate + " futuredate "+ this.futuredate());
     
   }
+  singleCostByDate = signal<number>(0);
   calculateCostByDate(item?: BillServiceItem){
-    console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost);
-    
+   // console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost + " frequency "+ item?.frequency);
+
+          if (!item?.dueDate || !item?.cost) {
+                return;
+          }
+        const dueDate = item.dueDate;
+        const futureDate = this.futuredate();
+        const cost = item.cost
+        const monthDifference = this.getMonthDifference(
+                                          dueDate,
+                                          futureDate
+            );
+        console.log(`monthDifference : ${monthDifference}`);
+        console.log(`${dueDate} futuredate ${futureDate} cost ${cost} frequency ${item.frequency}`
+        );
+        switch (item.frequency) {
+          case 'Weekly':{
+             this.singleCostByDate.set(this.calculateWeeksBetween(dueDate,futureDate) * cost);
+            break;
+          }
+          case 'Monthly':{
+            this.singleCostByDate.set((monthDifference)* cost);
+            break;
+          }
+          case '2-Months':{
+            this.singleCostByDate.set((monthDifference/2)* cost);
+            break;
+          }
+          case '3-Months':{
+            this.singleCostByDate.set((monthDifference/3)* cost);
+            break;
+          }
+          case '4-Months':{
+            this.singleCostByDate.set((monthDifference/4)* cost);
+            break;
+          }
+      
+          case '6-Months':{
+            this.singleCostByDate.set((monthDifference/6)* cost);
+            break;
+          }
+            
+          case 'Year':{
+             this.singleCostByDate.set((monthDifference/12)* cost);
+
+            break;
+          }
+        }
+
+  }
+
+  getMonthDifference(dateStr1: string, dateStr2: string): number {
+    const d1 = new Date(dateStr1);
+    const d2 = new Date(dateStr2);
+
+    // Calculate months based on year and month differences
+    const yearDiff = d2.getFullYear() - d1.getFullYear();
+    const monthDiff = d2.getMonth() - d1.getMonth();
+
+    // Total months
+    return (yearDiff * 12) + monthDiff;
+  }
+
+  calculateWeeksBetween(dateStr1: string, dateStr2: string): number {
+    // 1. Convert string dates to Date objects
+    const date1 = new Date(dateStr1);
+    const date2 = new Date(dateStr2);
+
+    // 2. Get the absolute difference in milliseconds
+    const diffInMs = Math.abs(date2.getTime() - date1.getTime());
+
+    // 3. Define milliseconds in a single week (1000ms * 60s * 60m * 24h * 7 days)
+    const msInWeek = 1000 * 60 * 60 * 24 * 7;
+
+    // 4. Return the result (use Math.floor, Math.ceil, or keep decimals based on your needs)
+    return Math.floor(diffInMs / msInWeek); 
   }
   
   searchService(){

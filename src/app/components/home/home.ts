@@ -24,6 +24,7 @@ export class Home {
   type = signal<string>('');
   email = signal<string>('');
   status = signal<string>('');
+  frequency = signal<string>('');
 
   //services = this.billService.services;
 
@@ -108,13 +109,14 @@ export class Home {
    const type = this.type();
    const email = this.email();
    const status = this.status();
+   const frequency = this.frequency();
 
     if (this.isSubmitting()) return;
 
     this.isSubmitting.set(true);
 
     if (name === '' || serviceName === '' || cost === 0 || dueDate === '' || type === '' || email === ''
-      || status === '') {
+      || status === '' || frequency === '') {
 
        this.showErrorModal.set(true);
     } else {
@@ -126,8 +128,10 @@ export class Home {
         type: type,
         email: email,
         status: status,
+        frequency: frequency,
         idempotencyKey: crypto.randomUUID()
       };
+
       console.log("newService ", newService);
       this.billService.create(newService).subscribe({
         next: () => {
@@ -159,5 +163,6 @@ export class Home {
     this.duedate.set('');
     this.status.set('');
     this.email.set('');
+    this.frequency.set('');
   }
 }

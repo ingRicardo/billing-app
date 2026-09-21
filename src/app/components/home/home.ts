@@ -59,59 +59,66 @@ export class Home {
     this.selectedItem.set(item);
     this.futuredate.set('');
     this.singleCostByDate.set(0);
+    this.isCostByDateCalc.set(false);
    // console.log(duedate + " futuredate "+ this.futuredate());
     
   }
   singleCostByDate = signal<number>(0);
+  isCostByDateCalc = signal <boolean>(false);
   calculateCostByDate(item?: BillServiceItem){
    // console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost + " frequency "+ item?.frequency);
 
-          if (!item?.dueDate || !item?.cost) {
-                return;
-          }
-        const dueDate = item.dueDate;
-        const futureDate = this.futuredate();
-        const cost = item.cost
-        const monthDifference = this.getMonthDifference(
-                                          dueDate,
-                                          futureDate
-            );
-        console.log(`monthDifference : ${monthDifference}`);
-        console.log(`${dueDate} futuredate ${futureDate} cost ${cost} frequency ${item.frequency}`
-        );
-        switch (item.frequency) {
-          case 'Weekly':{
-             this.singleCostByDate.set(this.calculateWeeksBetween(dueDate,futureDate) * cost);
-            break;
-          }
-          case 'Monthly':{
-            this.singleCostByDate.set((monthDifference)* cost);
-            break;
-          }
-          case '2-Months':{
-            this.singleCostByDate.set((monthDifference/2)* cost);
-            break;
-          }
-          case '3-Months':{
-            this.singleCostByDate.set((monthDifference/3)* cost);
-            break;
-          }
-          case '4-Months':{
-            this.singleCostByDate.set((monthDifference/4)* cost);
-            break;
-          }
-      
-          case '6-Months':{
-            this.singleCostByDate.set((monthDifference/6)* cost);
-            break;
-          }
-            
-          case 'Year':{
-             this.singleCostByDate.set((monthDifference/12)* cost);
+      if (!item?.dueDate || !item?.cost) {
+            return;
+      }
+    
+    const dueDate = item.dueDate;
+    const futureDate = this.futuredate();
+    const cost = item.cost
 
-            break;
-          }
+    if (dueDate != '' && futureDate !=''){
+      this.isCostByDateCalc.set(true);
+      const monthDifference = this.getMonthDifference(
+                                        dueDate,
+                                        futureDate
+          );
+      console.log(`monthDifference : ${monthDifference}`);
+      console.log(`${dueDate} futuredate ${futureDate} cost ${cost} frequency ${item.frequency}`
+      );
+      switch (item.frequency) {
+        case 'Weekly':{
+          this.singleCostByDate.set(  Math.round (  ( this.calculateWeeksBetween(dueDate,futureDate) * cost) *100) /100);
+          break;
         }
+        case 'Monthly':{
+          this.singleCostByDate.set( Math.round ( ((monthDifference)* cost) * 100 ) /100 );
+          break;
+        }
+        case '2-Months':{
+          this.singleCostByDate.set( Math.round ( ((monthDifference/2)* cost) * 100 ) /100 );
+          break;
+        }
+        case '3-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/3)* cost) * 100 ) /100);
+          break;
+        }
+        case '4-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/4)* cost) * 100 ) /100);
+          break;
+        }
+    
+        case '6-Months':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/6)* cost) * 100 ) /100);
+          break;
+        }
+          
+        case 'Year':{
+          this.singleCostByDate.set(Math.round ( ((monthDifference/12)* cost) * 100 ) /100);
+
+          break;
+        }
+      }
+  }
 
   }
 

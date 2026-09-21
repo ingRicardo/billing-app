@@ -127,9 +127,12 @@
                     </div>
                     
                   </div>
-                  <div>
-                          costbydate: {{singleCostByDate()}}
-                  </div>
+                  @if(isCostByDateCalc()){
+                    <div class="total-summary">
+                      <strong>Cost By Date: ${{ singleCostByDate() }}</strong>
+                    </div>
+                  }
+
                 }
               </li>
             }

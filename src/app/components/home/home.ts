@@ -49,6 +49,8 @@ export class Home {
   services = this.billService.services;
   loading = this.billService.loading;
   isSubmitting = this.billService.isSubmitting;
+  
+  income = signal<number>(0);
 
   ngOnInit(): void {
     //this.billService.getAll().subscribe();

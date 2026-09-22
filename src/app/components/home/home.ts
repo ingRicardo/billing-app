@@ -49,12 +49,48 @@ export class Home {
   services = this.billService.services;
   loading = this.billService.loading;
   isSubmitting = this.billService.isSubmitting;
-  
+
   income = signal<number>(0);
 
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }
+ 
+  addIncome(){
+    console.log("income "+this.income());
+    console.log("bills ",this.bills());
+    this.bills().forEach(bill => {
+        if (bill.id === undefined) {
+            return;
+        }
+    
+        const id = bill.id;
+        const updateService: BillServiceItem = {
+          id: id,
+          name: bill.name,
+          serviceName: bill.serviceName,
+          cost: bill.cost,
+          dueDate: bill.dueDate,
+          type: bill.type,
+          email: bill.email,
+          status: bill.status,
+          frequency: bill.frequency,
+          idempotencyKey: bill.idempotencyKey,
+          income: this.income()
+      };
+      this.billService.update(id, updateService).subscribe({
+        next: (result) => {
+           console.log(`Successfully updated bill ID: ${id}`, result);
+        },
+        error: (err) => {
+         
+           console.error(`Error while updating bill ID: ${id}`, err);
+        }
+      });
+      console.log(bill.id+ " "+ bill.name);
+    });
+  }
+
   showCostByDate(item?: BillServiceItem){
     this.showCalcByDate.set(true);
     console.log(item?.id);
@@ -150,7 +186,7 @@ export class Home {
     // 4. Return the result (use Math.floor, Math.ceil, or keep decimals based on your needs)
     return Math.floor(diffInMs / msInWeek); 
   }
-  
+  bills = signal<BillServiceItem[]>([]); 
   searchService(){
     const name = this.searchName();
     const email = this.searchEmail();
@@ -161,8 +197,9 @@ export class Home {
       console.log(name , email);
 
       this.billService.search(name, email).subscribe({
-        next: () => {
- 
+        next: (results) => {
+          //console.log("search successful", results);
+          this.bills.set(results); // Store the list in your Signal
           console.log("search");
           this.showTotalCost.set(true);
         },

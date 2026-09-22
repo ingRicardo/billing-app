@@ -105,18 +105,39 @@
         } @else if (services().length === 0 && isSearching()) {
           <p>No bill services found matching criteria.</p>
         } @else {
+            @if (services().length > 0){
+            <form class="form-container">
+                <div>
+                  <label class="mainlabel">Add/Update your Income:</label>
+                </div>
+                <div class="form-group">
+                  <label for="income">Your Income: </label>
+                  <input type="number" [(ngModel)]="income" name="income" id="income" placeholder="Add Income... ">
+                </div>
+                <div class="button-group">
+                  <button type="button" class="btn btn-primary" (click)="addIncome()">
+                    Add/Update
+                </button>
+                </div>
+          </form>
+          }
+          <div>
+            Income {{income()}}
+          </div>
           <ul>
             @for (item of services(); track item.id) {
               <li>
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
-                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
-                <div>
+                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
+                <div class="button-group">
                   <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
+                  <button type="button" class="btn btn-primary" (click)="payService(item)" >Pay</button>
                 </div>
                 @if(showCalcByDate() && selectedItem()?.id == item.id){
                   <div>
                     <div class="form-group">
-                      <label> select date </label>
+                      
+                      <label> select date: </label>
                         <input type="date"   [(ngModel)]="futuredate" name="futuredate" id="futuredate">
                     </div>
                     <div class="button-group">
@@ -148,7 +169,7 @@
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-card" (click)="$event.stopPropagation()">
       <div class="modal-icon">✓</div>
-      <h3>Record Saved Successfully!</h3>
+      <h3>Record Saved/updated Successfully!</h3>
       <p>The service record has been created and updated in the database.</p>
       <button type="button" class="btn btn-primary" (click)="closeModal()">
         Done

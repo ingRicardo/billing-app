@@ -9,4 +9,5 @@ export interface BillServiceItem {
   status?: string;
   idempotencyKey?: string;
   frequency?: string;
+  income?:number;
 }

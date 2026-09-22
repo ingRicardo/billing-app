@@ -50,8 +50,96 @@ export class Home {
   loading = this.billService.loading;
   isSubmitting = this.billService.isSubmitting;
 
+  income = signal<number>(0);
+
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
+  }
+ 
+  addIncome(){
+    console.log("income "+this.income());
+    console.log("bills ",this.bills());
+    this.bills().forEach(bill => {
+        if (bill.id === undefined) {
+            return;
+        }
+    
+        const id = bill.id;
+        const updateService: BillServiceItem = {
+          id: id,
+          name: bill.name,
+          serviceName: bill.serviceName,
+          cost: bill.cost,
+          dueDate: bill.dueDate,
+          type: bill.type,
+          email: bill.email,
+          status: bill.status,
+          frequency: bill.frequency,
+          idempotencyKey: bill.idempotencyKey,
+          income: this.income()
+      };
+      this.billService.update(id, updateService).subscribe({
+        next: (result) => {
+           console.log(`Successfully updated bill ID: ${id}`, result);
+           this.showSuccessModal.set(true);
+          // this.income.set(0);
+        },
+        error: (err) => {
+         
+           console.error(`Error while updating bill ID: ${id}`, err);
+           this.showErrorModal.set(true);
+          // this.income.set(0);
+        }
+      });
+      console.log(bill.id+ " "+ bill.name);
+    });
+  }
+  payService(item?: BillServiceItem){
+   
+    if (!item || item.id === undefined) {
+      return;
+    }
+     console.log(item);
+    if(item.status!= "Paid"){
+      const id = item.id;
+      this.income.set((item.income ?? 0) - (item.cost ?? 0));
+      console.log("new income ",this.income());
+      const updateService: BillServiceItem = {
+        id: id,
+        name: item.name,
+        serviceName: item.serviceName,
+        cost: item.cost,
+        dueDate: item.dueDate,
+        type: item.type,
+        email: item.email,
+        status: "Paid",
+        frequency: item.frequency,
+        idempotencyKey: item.idempotencyKey,
+        income: (item.income ?? 0) - (item.cost ?? 0)
+      };
+       console.log("updateService ", updateService);
+          this.billService.update(id, updateService).subscribe({
+          next: (result) => {
+            console.log(`Successfully updated bill ID: ${id}`, result);
+            this.showSuccessModal.set(true);
+            //this.addIncome();
+            console.log("item ", updateService);
+           // this.income.set(0);
+          },
+          error: (err) => {
+          
+            console.error(`Error while updating bill ID: ${id}`, err);
+            this.showErrorModal.set(true);
+           // this.income.set(0);
+          }
+        });
+       
+        
+    }else
+      this.showErrorModal.set(true);
+
+
+    
   }
   showCostByDate(item?: BillServiceItem){
     this.showCalcByDate.set(true);
@@ -65,6 +153,7 @@ export class Home {
   }
   singleCostByDate = signal<number>(0);
   isCostByDateCalc = signal <boolean>(false);
+
   calculateCostByDate(item?: BillServiceItem){
    // console.log(item?.dueDate + " futuredate "+ this.futuredate() + " cost "+ item?.cost + " frequency "+ item?.frequency);
 
@@ -148,7 +237,8 @@ export class Home {
     // 4. Return the result (use Math.floor, Math.ceil, or keep decimals based on your needs)
     return Math.floor(diffInMs / msInWeek); 
   }
-  
+  bills = signal<BillServiceItem[]>([]); 
+
   searchService(){
     const name = this.searchName();
     const email = this.searchEmail();
@@ -159,8 +249,9 @@ export class Home {
       console.log(name , email);
 
       this.billService.search(name, email).subscribe({
-        next: () => {
- 
+        next: (results) => {
+          //console.log("search successful", results);
+          this.bills.set(results); // Store the list in your Signal
           console.log("search");
           this.showTotalCost.set(true);
         },

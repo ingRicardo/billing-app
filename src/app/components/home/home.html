@@ -108,7 +108,7 @@
             @if (services().length > 0){
             <form class="form-container">
                 <div>
-                  <label class="mainlabel">Add your Income:</label>
+                  <label class="mainlabel">Add/Update your Income:</label>
                 </div>
                 <div class="form-group">
                   <label for="income">Your Income: </label>
@@ -129,13 +129,15 @@
               <li>
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
                 <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
-                <div>
+                <div class="button-group">
                   <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
+                  <button type="button" class="btn btn-primary" (click)="payService(item)" >Pay</button>
                 </div>
                 @if(showCalcByDate() && selectedItem()?.id == item.id){
                   <div>
                     <div class="form-group">
-                      <label> select date </label>
+                      
+                      <label> select date: </label>
                         <input type="date"   [(ngModel)]="futuredate" name="futuredate" id="futuredate">
                     </div>
                     <div class="button-group">

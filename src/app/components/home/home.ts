@@ -81,10 +81,14 @@ export class Home {
       this.billService.update(id, updateService).subscribe({
         next: (result) => {
            console.log(`Successfully updated bill ID: ${id}`, result);
+           this.showSuccessModal.set(true);
+           this.income.set(0);
         },
         error: (err) => {
          
            console.error(`Error while updating bill ID: ${id}`, err);
+           this.showErrorModal.set(true);
+           this.income.set(0);
         }
       });
       console.log(bill.id+ " "+ bill.name);

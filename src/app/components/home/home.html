@@ -105,20 +105,22 @@
         } @else if (services().length === 0 && isSearching()) {
           <p>No bill services found matching criteria.</p>
         } @else {
-          <form class="form-container">
-              <div>
-                <label class="mainlabel">Add your Income:</label>
-              </div>
-              <div class="form-group">
-                <label for="income">Your Income: </label>
-                <input type="number" [(ngModel)]="income" name="income" id="income" placeholder="Add Income... ">
-              </div>
-              <div class="button-group">
-                <button type="button" class="btn btn-primary" (click)="addIncome()">
-                  Add
-              </button>
-              </div>
-         </form>
+            @if (services().length > 0){
+            <form class="form-container">
+                <div>
+                  <label class="mainlabel">Add your Income:</label>
+                </div>
+                <div class="form-group">
+                  <label for="income">Your Income: </label>
+                  <input type="number" [(ngModel)]="income" name="income" id="income" placeholder="Add Income... ">
+                </div>
+                <div class="button-group">
+                  <button type="button" class="btn btn-primary" (click)="addIncome()">
+                    Add
+                </button>
+                </div>
+          </form>
+          }
           <div>
 
           </div>
@@ -126,7 +128,7 @@
             @for (item of services(); track item.id) {
               <li>
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
-                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
+                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
                 <div>
                   <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
                 </div>
@@ -165,7 +167,7 @@
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-card" (click)="$event.stopPropagation()">
       <div class="modal-icon">✓</div>
-      <h3>Record Saved Successfully!</h3>
+      <h3>Record Saved/updated Successfully!</h3>
       <p>The service record has been created and updated in the database.</p>
       <button type="button" class="btn btn-primary" (click)="closeModal()">
         Done

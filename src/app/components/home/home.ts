@@ -82,55 +82,59 @@ export class Home {
         next: (result) => {
            console.log(`Successfully updated bill ID: ${id}`, result);
            this.showSuccessModal.set(true);
-           this.income.set(0);
+          // this.income.set(0);
         },
         error: (err) => {
          
            console.error(`Error while updating bill ID: ${id}`, err);
            this.showErrorModal.set(true);
-           this.income.set(0);
+          // this.income.set(0);
         }
       });
       console.log(bill.id+ " "+ bill.name);
     });
   }
   payService(item?: BillServiceItem){
-    console.log(item);
+   
     if (!item || item.id === undefined) {
       return;
     }
-    
+     console.log(item);
     if(item.status!= "Paid"){
       const id = item.id;
       this.income.set((item.income ?? 0) - (item.cost ?? 0));
+      console.log("new income ",this.income());
       const updateService: BillServiceItem = {
         id: id,
         name: item.name,
         serviceName: item.serviceName,
-        cost: 0,
+        cost: item.cost,
         dueDate: item.dueDate,
         type: item.type,
         email: item.email,
         status: "Paid",
         frequency: item.frequency,
         idempotencyKey: item.idempotencyKey,
-        income: this.income()
+        income: (item.income ?? 0) - (item.cost ?? 0)
       };
+       console.log("updateService ", updateService);
           this.billService.update(id, updateService).subscribe({
           next: (result) => {
             console.log(`Successfully updated bill ID: ${id}`, result);
             this.showSuccessModal.set(true);
-            this.income.set(0);
+            //this.addIncome();
+            console.log("item ", updateService);
+           // this.income.set(0);
           },
           error: (err) => {
           
             console.error(`Error while updating bill ID: ${id}`, err);
             this.showErrorModal.set(true);
-            this.income.set(0);
+           // this.income.set(0);
           }
         });
-        console.log("item ", updateService);
-        this.addIncome();
+       
+        
     }else
       this.showErrorModal.set(true);
 

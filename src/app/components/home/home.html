@@ -116,13 +116,13 @@
                 </div>
                 <div class="button-group">
                   <button type="button" class="btn btn-primary" (click)="addIncome()">
-                    Add
+                    Add/Update
                 </button>
                 </div>
           </form>
           }
           <div>
-
+            Income {{income()}}
           </div>
           <ul>
             @for (item of services(); track item.id) {

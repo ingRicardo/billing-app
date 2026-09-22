@@ -110,13 +110,10 @@
               <li>
                 <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
                 <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}}</span>
-              </li>
-              <li>
                 <div>
                   <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
                 </div>
                 @if(showCalcByDate() && selectedItem()?.id == item.id){
-                  
                   <div>
                     <div class="form-group">
                       <label> select date </label>
@@ -132,13 +129,10 @@
                       <strong>Cost By Date: ${{ singleCostByDate() }}</strong>
                     </div>
                   }
-
                 }
               </li>
             }
           </ul>
-
-
            @if(totalCost()){
             <div class="total-summary">
               <strong>Total Cost: ${{ totalCost() }}</strong>

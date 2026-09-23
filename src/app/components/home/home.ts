@@ -58,8 +58,8 @@ export class Home {
  
   addIncome(){
     console.log("income "+this.income());
-    console.log("bills ",this.bills());
-    this.bills().forEach(bill => {
+    console.log("bills ",this.services());
+    this.services().forEach(bill => {
         if (bill.id === undefined) {
             return;
         }
@@ -273,7 +273,7 @@ export class Home {
     // 4. Return the result (use Math.floor, Math.ceil, or keep decimals based on your needs)
     return Math.floor(diffInMs / msInWeek); 
   }
-  bills = signal<BillServiceItem[]>([]); 
+
 
   searchService(){
     const name = this.searchName();
@@ -287,7 +287,6 @@ export class Home {
       this.billService.search(name, email).subscribe({
         next: (results) => {
           //console.log("search successful", results);
-          this.bills.set(results); // Store the list in your Signal
           console.log("search");
           this.showTotalCost.set(true);
         },

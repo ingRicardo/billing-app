@@ -14,7 +14,8 @@ export class BillService {
   public services = signal<BillServiceItem[]>([]);
   public loading = signal<boolean>(false);
   public isSubmitting =signal<boolean>(false);
-   
+  public deleteFlag  =signal<boolean>(false);
+  
   getAll(): Observable<BillServiceItem[]> {
     this.loading.set(true);
     return this.http.get<BillServiceItem[]>(this.apiUrl).pipe(
@@ -39,11 +40,11 @@ export class BillService {
     tap({
       next: (newItem) => {
         this.services.update((current) => [...current, newItem]);
-        this.isSubmitting.set(true);
+        this.deleteFlag.set(true);
       },
       error: (err) => {
         console.error('Error creating item:', err);
-        this.isSubmitting.set(false);
+        this.deleteFlag.set(false);
 
       }
     })
@@ -64,9 +65,21 @@ export class BillService {
  
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => {
-        this.services.update((current) => current.filter((s) => s.id !== id));
-      })
+
+      tap({
+      next: (newItem) => {
+       this.services.update((current) => current.filter((s) => s.id !== id));
+       console.log('delete : '+newItem);
+       this.isSubmitting.set(true);
+      },
+      error: (err) => {
+        console.error('Error deleting item:', err);
+        this.isSubmitting.set(false);
+
+      }
+    })
+
+
     );
   }
 /**

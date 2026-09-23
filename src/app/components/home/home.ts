@@ -48,6 +48,7 @@ export class Home {
   services = this.billService.services;
   loading = this.billService.loading;
   isSubmitting = this.billService.isSubmitting;
+  deleteFlag = this.billService.deleteFlag;
 
   income = signal<number>(0);
 
@@ -107,7 +108,7 @@ export class Home {
         id: id,
         name: item.name,
         serviceName: item.serviceName,
-        cost: item.cost,
+        cost: 0,
         dueDate: item.dueDate,
         type: item.type,
         email: item.email,
@@ -136,9 +137,45 @@ export class Home {
         
     }else
       this.showErrorModal.set(true);
+  }
 
 
-    
+  deleteItem(item?: BillServiceItem){
+    if (!item || item.id === undefined) {
+      return;
+    }
+    console.log(item);
+     const id = item.id;
+     const deleteService: BillServiceItem = {
+        id: id,
+        name: item.name,
+        serviceName: item.serviceName,
+        cost: item.cost,
+        dueDate: item.dueDate,
+        type: item.type,
+        email: item.email,
+        status: "Paid",
+        frequency: item.frequency,
+        idempotencyKey: item.idempotencyKey,
+        income: item.income
+      };
+      console.log("deleteService ", deleteService);
+      this.billService.delete(id).subscribe({
+      next: (result) => {
+        console.log(`Successfully deleted bill ID: ${id}`, result);
+        this.showSuccessModal.set(true);
+        //this.addIncome();
+        console.log("item ", deleteService);
+        // this.income.set(0);
+      },
+      error: (err) => {
+      
+        console.error(`Error while deleting bill ID: ${id}`, err);
+        this.showErrorModal.set(true);
+        // this.income.set(0);
+      }
+    });
+
   }
   showCostByDate(item?: BillServiceItem){
     this.showCalcByDate.set(true);

@@ -127,8 +127,14 @@
           <ul>
             @for (item of services(); track item.id) {
               <li>
-                <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
-                <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} | Status: {{ item.status }} | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
+                @if(item.status == 'Active'){
+                  <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
+                  <span >Cost: ${{ item.cost }} | Due: {{ item.dueDate }} |  Status: <span class="statusActive">{{ item.status }}</span> | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
+                } @else if (item.status == 'Paid') {
+                  <strong>{{ item.serviceName }}</strong> - {{ item.name }} ({{ item.email }})
+                  <span>Cost: ${{ item.cost }} | Due: {{ item.dueDate }} |Status: <span class="statusPaid">{{ item.status }}</span> | Frequency: {{item.frequency}} | Income: {{item.income}}</span>
+                }
+                
                 <div class="button-group">
                   <button type="button" class="btn btn-outline" (click)="showCostByDate(item)">More Info...</button>
                   <button type="button" class="btn btn-primary" (click)="payService(item)" >Pay</button>

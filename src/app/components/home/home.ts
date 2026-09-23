@@ -52,6 +52,8 @@ export class Home {
 
   income = signal<number>(0);
 
+  isActive =signal<boolean>(false);
+  
   ngOnInit(): void {
     //this.billService.getAll().subscribe();
   }

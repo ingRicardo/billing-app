@@ -1,0 +1,78 @@
+.mainstyle{
+    color: rgb(6, 38, 66);
+    padding: 10px;
+
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #25d366;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin: 1px;
+}
+
+.btn-whatsapp:hover {
+  background-color: #20ba5a;
+}
+
+.btn-whatsapp:active {
+  transform: scale(0.98);
+}
+
+.btn-facebook {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1877f2;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin: 1px;
+
+}
+
+.btn-facebook:hover {
+  background-color: #166fe5;
+}
+
+.btn-facebook:active {
+  transform: scale(0.98);
+}
+
+.btn-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #24292e;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+   margin: 1px;
+}
+
+.btn-github:hover {
+  background-color: #1b1f23;
+}
+
+.btn-github:active {
+  transform: scale(0.98);
+}
+p {
+  color: aliceblue;
+}

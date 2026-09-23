@@ -40,11 +40,11 @@ export class BillService {
     tap({
       next: (newItem) => {
         this.services.update((current) => [...current, newItem]);
-        this.deleteFlag.set(true);
+         this.isSubmitting.set(true);
       },
       error: (err) => {
         console.error('Error creating item:', err);
-        this.deleteFlag.set(false);
+        this.isSubmitting.set(false);
 
       }
     })
@@ -70,11 +70,13 @@ export class BillService {
       next: (newItem) => {
        this.services.update((current) => current.filter((s) => s.id !== id));
        console.log('delete : '+newItem);
-       this.isSubmitting.set(true);
+      
+       this.deleteFlag.set(true);
       },
       error: (err) => {
         console.error('Error deleting item:', err);
-        this.isSubmitting.set(false);
+        
+        this.deleteFlag.set(false);
 
       }
     })

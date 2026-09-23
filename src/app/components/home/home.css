@@ -306,3 +306,17 @@
   color: #dc2626;
   background-color: #fee2e2;
 }
+
+.statusActive{
+  background-color: #1ab151;
+  color: #e8eaed;
+  border-radius: 4px;
+
+}
+
+.statusPaid{
+  background-color: #5d615e;
+  color: #e8eaed;
+  border-radius: 4px;
+
+}

@@ -2,11 +2,10 @@ import { Component, computed, inject, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BillService } from '../../services/bill-service';
 import { BillServiceItem } from '../../models/bill-service.model';
-
-
+ import { ChatComponent } from '../chat.component/chat.component';
 @Component({
   selector: 'app-home',
-  imports: [FormsModule],
+  imports: [FormsModule, ChatComponent ],
   templateUrl: './home.html',
   styleUrl: './home.css',
   standalone: true

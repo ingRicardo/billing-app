@@ -1,0 +1,34 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h3>Gemini Assistant</h3>
+    <button type="button" class="btn-clear" (click)="clear()">Clear</button>
+  </div>
+
+  <div class="chat-messages">
+    @for (msg of messages(); track msg.id) {
+      <div class="message-bubble" [class.user]="msg.sender === 'user'" [class.bot]="msg.sender === 'bot'">
+        <div class="message-text">{{ msg.text }}</div>
+        <div class="message-time">{{ msg.timestamp | date:'shortTime' }}</div>
+      </div>
+    }
+
+    @if (isTyping()) {
+      <div class="message-bubble bot typing">
+        <span>Thinking...</span>
+      </div>
+    }
+  </div>
+
+  <form class="chat-input-area" (ngSubmit)="send()">
+    <input 
+      type="text" 
+      [ngModel]="userPrompt()" 
+      (ngModelChange)="updatePrompt($event)"
+      name="userPrompt" 
+      placeholder="Ask about bills, services..."
+      [disabled]="isTyping()">
+    <button type="submit" class="btn-send" [disabled]="isTyping() || !userPrompt().trim()">
+      Send
+    </button>
+  </form>
+</div>
